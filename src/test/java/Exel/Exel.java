@@ -1,5 +1,6 @@
 package Exel;
 
+import com.codeborne.selenide.AssertionMode;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -36,7 +37,7 @@ public class Exel {
 
         Sheet sheet = workbook.getSheet(sheetName);
 
-        int rowCount = sheet.getLastRowNum()-sheet.getFirstRowNum();
+//        int rowCount = sheet.getLastRowNum()-sheet.getFirstRowNum();
 //
 //        for (int i = 0; i < rowCount+1; i++) {
 //
@@ -83,6 +84,15 @@ public class Exel {
         $(By.xpath("//*[@for='gender-radio-2']")).click();
         $("#userNumber").setValue(String.valueOf(sheet.getRow(2).getCell(3).getNumericCellValue()));
 
+
+        int rowCount = sheet.getLastRowNum()-sheet.getFirstRowNum();
+
+
+        for (int i = 0; i < rowCount+1; i++){
+
+            AssertionMode assertionMode = AssertionMode.SOFT;
+            Assert.assertEquals($("#firstName").innerText(),sheet.getRow(i).getCell(0).getStringCellValue());
+        }
 
     }
 
